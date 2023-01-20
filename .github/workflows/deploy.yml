@@ -3,17 +3,16 @@ on:
     branches:
       - master
 
-name: Github Actions Deploy TEST 3
+name: Github Actions Deploy TEST
 env:
-  S3_BUCKET_NAME: limjustin.deployprac
-  RESOURCE_PATH: ./src/main/resources/application.yaml
-  CODE_DEPLOY_APPLICATION_NAME: jaeyoung-deploy-test
-  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: jaeyoung-server
+  PROJECT_NAME: Deploy-Practice
+  S3_BUCKET_NAME: jaeyoung-bucket-deploy
+  CODE_DEPLOY_APPLICATION_NAME: testapp-deploy
+  CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: dev
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -22,13 +21,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-          
-      - name: Set yaml file 
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: ${{ env.RESOURCE_PATH }} 
-        env:
-          override.value: 'from deploy.yaml'
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
@@ -39,7 +31,7 @@ jobs:
         shell: bash
 
       - name: Make zip file
-        run: zip -r ./$GITHUB_SHA.zip .
+        run: zip -qq -r ./$GITHUB_SHA.zip .
         shell: bash
 
       - name: Configure AWS credentials
@@ -50,7 +42,7 @@ jobs:
           aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$GITHUB_SHA.zip
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://$S3_BUCKET_NAME/$PROJECT_NAME/$GITHUB_SHA.zip
 
       - name: Code Deploy
         run: | 
@@ -58,4 +50,4 @@ jobs:
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$GITHUB_SHA.zip
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/GITHUB_SHA.zip
