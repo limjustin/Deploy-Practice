@@ -3,11 +3,11 @@ on:
     branches:
       - master
 
-name: Github Actions Deploy TEST 1
+name: Github Actions Deploy TEST 2
 env:
-  S3_BUCKET_NAME: jaeyoung-bucket
+  S3_BUCKET_NAME: limjustin.deployprac
   RESOURCE_PATH: ./src/main/resources/application.yaml
-  CODE_DEPLOY_APPLICATION_NAME: jaeyoung-code-deploy
+  CODE_DEPLOY_APPLICATION_NAME: jaeyoung-deploy-test
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: jaeyoung-server
 
 jobs:
