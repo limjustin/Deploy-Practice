@@ -5,7 +5,6 @@ on:
 
 name: Github Actions Deploy TEST
 env:
-  PROJECT_NAME: Deploy-Practice
   S3_BUCKET_NAME: jaeyoung-bucket-deploy
   CODE_DEPLOY_APPLICATION_NAME: testapp-deploy
   CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: dev
@@ -50,4 +49,4 @@ jobs:
           --deployment-config-name CodeDeployDefault.AllAtOnce \
           --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
           --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/GITHUB_SHA.zip
+          --s3-location bucket=$S3_BUCKET_NAME,bundleType=zip,key=$PROJECT_NAME/$GITHUB_SHA.zip
