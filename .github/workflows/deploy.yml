@@ -3,7 +3,7 @@ on:
     branches:
       - master
 
-name: Github Actions Deploy TEST
+name: Github Actions Deploy TEST 1
 env:
   S3_BUCKET_NAME: jaeyoung-bucket
   RESOURCE_PATH: ./src/main/resources/application.yaml
