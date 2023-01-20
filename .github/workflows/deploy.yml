@@ -2,7 +2,7 @@ on:
   push:
     branches:
       - master
-      -
+
 name: Github Actions Deploy TEST
 env:
   S3_BUCKET_NAME: jaeyoung-bucket
