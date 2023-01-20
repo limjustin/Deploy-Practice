@@ -3,7 +3,7 @@ on:
     branches:
       - master
 
-name: Github Actions Deploy TEST 2
+name: Github Actions Deploy TEST 3
 env:
   S3_BUCKET_NAME: limjustin.deployprac
   RESOURCE_PATH: ./src/main/resources/application.yaml
